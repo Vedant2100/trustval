@@ -1,10 +1,8 @@
 # TrustVal: Can agents safely act when tools lie by omission?
 
-TrustVal evaluates whether an AI agent can complete consequential multi-step workflows when a tool call may commit successfully but return a timeout, a read may be stale, or a batch may partially apply. The agent must use durable state and operation identifiers to distinguish “not applied” from “applied but unacknowledged,” recover without duplicating side effects, and finish the requested work. The benchmark scores the resulting ledger and business state—not the agent's narration or a success-shaped response.
+TrustVal tests whether AI agents can safely recover from ambiguous tool failures: a write may commit even when the caller receives a timeout or connection error. Four containerized tasks cover payments, account creation, inventory reservations, and role grants. Hidden database verifiers require every requested change exactly once, with no unintended side effects.
 
-## Why this matters
-
-Tool-using agents increasingly perform state-changing work: provisioning accounts, changing access, scheduling, billing, and updating operational records. A timeout does not tell the caller whether a mutation happened. Blind retries can duplicate payments or provisioning; refusing every retry sacrifices completion. TrustVal measures this concrete reliability trade-off.
+Across 82+ Valkyrie runs, older models (Claude Haiku 4.5, Claude Sonnet 4.6, and GPT-5.3-Codex) often retried blindly and created duplicates; Sonnet 4.6 reported success in four of its five failures. On the original v3 benchmark, newer models (Claude 5.5, GPT-5.4, and GPT-6) generally checked authoritative state before acting and largely passed. GPT-6 results are one run per model; the delayed-visibility v4 follow-up is reported separately.
 
 ## What is tested
 
