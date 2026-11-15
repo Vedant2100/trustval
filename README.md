@@ -49,7 +49,7 @@ A fluent final answer, a CLI success string, or a locally edited file cannot ear
 - Static task validation and Docker image builds: CI passes.
 - Full Harbor agent/verifier execution: done on Valkyrie (Modal VM runtime).
 - Reference solutions and naive-policy controls: solution scores 1, naive scores 0 on every task (CI); Valkyrie `oracle` 4/4.
-- Frontier-model runs: Haiku 4.5, Sonnet 4.6, Haiku 5.5, Sonnet 5.5 and Opus 5.5, 10 runs each on v3 (see Results).
+- Frontier-model runs: ten runs each for Claude Haiku 4.5, Sonnet 4.6, Haiku/Sonnet/Opus 5.5, GPT-5.3-Codex and GPT-5.4; one run each for three GPT-6 variants (see Results).
 - Valkyrie upload: `trustval/stateful-tool-recovery@3` (v1 and v2 kept for provenance).
 
 ## Repository layout
@@ -233,7 +233,7 @@ v2 (`@2`) leaked the outcome in its error messages ("timeout after durable commi
 
 ## Limitations
 
-This is a controlled synthetic operations environment, not a live payment or provisioning system. The benchmark isolates ambiguous mutation outcomes and recovery behavior; it does not measure broad tool-use competence, general cybersecurity, or real-world financial judgment. Four tasks are variants of one capability, and ten runs per model separates the 4.x models from each other and from the 5.5 models, but not the 5.5 models from each other, and per-task rates still have wide intervals (for example, Sonnet 4.6 7/10 on partial batch). v3 is saturated for the Claude 5.5 generation. Faults are deterministic (each fires once, on a fixed item), so a model that had seen these tasks could memorise them. Stale read is saturated for both models and has no error, so it mostly tests whether the agent follows the API documentation. Partial batch only exercises agents that use the batch command (all runs did). There is no API to undo a payout or account, so an agent can only report a duplicate it notices. The harness requires the agent to run as root inside its container; grading isolation relies on the sidecar and separate verifier, not on the agent's user. Results are for the Claude Code harness only; other harnesses may retry differently.
+This is a controlled synthetic operations environment, not a live payment or provisioning system. The benchmark isolates ambiguous mutation outcomes and recovery behavior; it does not measure broad tool-use competence, general cybersecurity, or real-world financial judgment. Four tasks are variants of one capability, and ten runs per model separates the 4.x models from each other and from the 5.5 models, but not the 5.5 models from each other, and per-task rates still have wide intervals (for example, Sonnet 4.6 7/10 on partial batch). v3 is saturated for the Claude 5.5 generation. Faults are deterministic (each fires once, on a fixed item), so a model that had seen these tasks could memorise them. Stale read is saturated for both models and has no error, so it mostly tests whether the agent follows the API documentation. Partial batch only exercises agents that use the batch command (all runs did). There is no API to undo a payout or account, so an agent can only report a duplicate it notices. The harness requires the agent to run as root inside its container; grading isolation relies on the sidecar and separate verifier, not on the agent's user. Claude models ran through the Claude Code harness and OpenAI models through Codex. Harness differences may affect how agents handle retries.
 
 ## References and positioning
 
