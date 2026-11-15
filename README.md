@@ -1,8 +1,10 @@
 # TrustVal: Can agents safely act when tools lie by omission?
 
-TrustVal tests whether AI agents can safely recover from ambiguous tool failures: a write may commit even when the caller receives a timeout or connection error. Four containerized tasks cover payments, account creation, inventory reservations, and role grants. Hidden database verifiers require every requested change exactly once, with no unintended side effects.
+TrustVal tests what an AI agent does when a tool call fails ambiguously. Examples include a payment, a new account, an inventory reservation, a role grant. Each of the four tasks runs a small API in its own container, injects one such fault, and grades the final database: every requested change done exactly once and nothing else touched, ideally.
 
-Across 82+ Valkyrie runs, older models (Claude Haiku 4.5, Claude Sonnet 4.6, and GPT-5.3-Codex) often retried blindly and created duplicates; Sonnet 4.6 reported success in four of its five failures. On the original v3 benchmark, newer models (Claude 5.5, GPT-5.4, and GPT-6) generally checked authoritative state before acting and largely passed. GPT-6 results are one run per model; the delayed-visibility v4 follow-up is reported separately.
+A payment or account creation can succeed even when its tool call returns a timeout or connection error. Another task returns stale state after a role grant. The agent has to check what changed before trying again.
+
+Across 82+ Valkyrie runs, Claude Haiku 4.5, Sonnet 4.6 and GPT-5.3-Codex sometimes retried writes without checking and created duplicates. Sonnet 4.6 reported success in four of its five failed runs. Claude 5.5 and GPT-5.4 usually checked state and passed the v3 tasks. Three GPT-6 variants also passed their v3 pilots, though each was tested only once. The delayed-visibility v4 results are reported separately.
 
 ## What is tested
 
