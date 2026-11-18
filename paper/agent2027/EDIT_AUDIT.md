@@ -29,7 +29,7 @@ The five local LaTeX inputs match the GitHub branch's exact file hashes:
 
 | File | Git blob |
 |---|---|
-| `main.tex` | `92f0c77bfd3842225bedcfdb00fe91cdd02bf965` |
+| `main.tex` | `15aedfd1ef542161f8d0643d6d8b1a0980b7cc30` |
 | `references.bib` | `0091b93b4c0f853fa40bcf72f621af1ffe0c78ef` |
 | `tables/v3-primary.tex` | `1970e500946f956a8e353772870a6a6a9d1bf395` |
 | `tables/revisions.tex` | `4b6ac493cc1c11599439cd3bdacaa50cfd94d493` |
@@ -37,13 +37,13 @@ The five local LaTeX inputs match the GitHub branch's exact file hashes:
 
 - Built with [pdfLaTeX](https://www.overleaf.com/learn/latex/PDF) and [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex): **4 US Letter pages including references**, within the five-page short-paper limit.
 - All eight citations and all cross-references resolved. No text extends beyond page margins. A few nonfatal line-spacing warnings remain.
-- All four pages were rendered and visually inspected. The PDF contains **59 clickable links**.
+- All four pages were rendered and visually inspected. The PDF contains **64 clickable links**, including direct links from the one-effect rule and the two example run IDs to their design notes and recorded actions.
 - The five-file Overleaf ZIP passed archive-integrity testing, was extracted into a clean directory, and compiled independently to the same four-page PDF.
 - The ZIP has not been uploaded to an Overleaf account; it is ready for **New Project → Upload Project**.
 
 SHA-256:
-- PDF: `9423924f9526212b73f851adb899d8a5fb8688c39d4ddb17475983c511bcb588`
-- ZIP: `4825a564e469067e4b0249290c04ccdb8c25d01c0cf6009ca6ca8c65ae4ba45b`
+- PDF: `de54f3bfb08a63bc8dc4ce55e2d1cf3169f53e59e59db32f8fd1ce4c1298de29`
+- ZIP: `ba038664121c98114f18df93660ffb2cfc51015073f8771a36575bc8bf4eb408`
 
 ## Remaining publication gates
 
