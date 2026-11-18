@@ -7,6 +7,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{balance}
+\usepackage{float}
 \begin{document}
 
 \title{TrustVal: An Engineering Case Study of Agent Recovery After Ambiguous Writes}
@@ -74,6 +75,7 @@ LIMBO \cite{limbo2026} spans six services, twelve fault modes, and 25,930 episod
 
 TrustVal is smaller and does not isolate harness or interface effects as those studies do. Its intended value is an inspectable record of a benchmark whose initial implementation could not reveal unsafe retries, together with revised tasks and original execution traces. The failure mode itself is not novel.
 
+\balance
 \section{Threats to Validity and Engineering Lessons}
 \textbf{Scope and missing counterfactual.} All injected v3 errors follow at least a partial commit; we did not pair each error with an observationally identical \emph{uncommitted} outcome. On the single-write tasks, simply never retrying after an error could succeed without establishing that an agent diagnosed what happened. The four scenarios also fix fault location and initial state; success cannot be generalized to unseen APIs, actual payments, or arbitrary retry policies. A full ambiguity benchmark would add matched committed and uncommitted branches, then condition recovery on nominal-task competence.
 
@@ -82,12 +84,11 @@ TrustVal is smaller and does not isolate harness or interface effects as those s
 \textbf{Reusable checks.} A stateful agent benchmark should (1) distinguish the tool's response from durable effects; (2) verify that a naive policy fails when it should and that the reference actually exercises the fault; (3) preserve traces and grade post-run state independently of final prose; and (4) report saturated scenarios and protocol revisions alongside positive findings. TrustVal demonstrates the need for these checks, rather than proving a new recovery method.
 
 \subsection{Reproducibility}
-The public artifact\footnote{\url{https://github.com/Vedant2100/trustval}} includes versioned task manifests, sidecar services, naive and reference policies, saved run identifiers, and regrade scripts. The scripts run verifiers against exported SQLite files and compare scores with Valkyrie's reports. Earlier infrastructure failures are recorded separately from model trials. Rerunning hosted agents requires container support, compatible Harbor/Valkyrie tooling, and model API access.
+The public artifact at \url{https://github.com/Vedant2100/trustval} includes versioned task manifests, sidecar services, naive and reference policies, saved run identifiers, and regrade scripts. The scripts run verifiers against exported SQLite files and compare scores with Valkyrie's reports. Earlier infrastructure failures are recorded separately from model trials. Rerunning hosted agents requires container support, compatible Harbor/Valkyrie tooling, and model API access.
 
 \section{Conclusion}
 TrustVal's first version could pass an unsafe retry because the error disclosed the commit and the API suppressed duplicates. Removing those protections exposed duplicate writes in some measured agent runs, while newer agents nearly saturated the resulting four-task test. The artifact is a regression check and a concrete example of why benchmark validity must be tested with adversarial controls and independent state inspection. General recovery from ambiguous outcomes remains unmeasured without matched uncommitted cases.
 
-\balance
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
