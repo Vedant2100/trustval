@@ -7,6 +7,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{balance}
 \usepackage[hidelinks]{hyperref}
 \begin{document}
 
@@ -37,7 +38,7 @@ The four tasks cover different situations: a payment saved before HTTP 504; a ro
 \subsection{Test versions and controls}
 Version 2 included error messages that disclosed whether a write had been saved and server-side duplicate suppression. Haiku 4.5 and Sonnet 4.6 each passed all four tasks in one run. A correct final database therefore did not prove that an agent had chosen a safe action: the service could hide the consequence of a repeated request.
 
-For version 3, we replaced the revealing error text with ordinary HTTP 502 and 504 responses, removed the service's duplicate suppression and task-specific recovery hints, and added requests for checking operation status and saved payment records. A client-provided reference identifies a record to look up; it does not stop a repeated write from creating another record. The version-3 instructions were written before the counted model runs. A fixed control program that repeated each write without checking first failed all four tasks. A prewritten reference agent that checked saved records before acting, and a separate hosted run of that reference, each passed all four tasks.
+For version 3, we replaced the revealing error text with ordinary HTTP 502 and 504 responses, removed the service's duplicate suppression and instructions that told agents how to recover from specific errors, and added requests for checking operation status and saved payment records. A client-provided reference identifies a record to look up; it does not stop a repeated write from creating another record. The version-3 instructions were written before the counted model runs. A fixed control program that repeated each write without checking first failed all four tasks. A prewritten reference agent that checked saved records before acting, and a separate hosted run of that reference, each passed all four tasks.
 
 The reference for the reservation task uses separate one-at-a-time requests rather than the batch request that triggers the error for the evaluated agents. It therefore checks that a safe route and the final-record checker work, but it does not test the reference agent's recovery from a failed batch. Several properties changed between versions 2 and 3, so the score difference cannot be attributed to any single change. Version 4 later added a delay before saved changes became visible to read requests. Table~\ref{tab:versions} summarizes the changes.
 
@@ -70,7 +71,7 @@ In a separate run where only part of a batch was completed, two of three reserva
 In version 4, saved changes did not appear in later reads for 30 seconds; the task instructions warned that a read could take up to 60 seconds to show a recent change. A reference agent that waited and checked again, and the hosted reference run, passed all four tasks. A control that checked only once and then retried failed all four. Across three runs each, Haiku 5.5 passed 11/12 attempts, Sonnet 5.5 passed 12/12, and GPT-6.1 Terra passed 12/12. The single failure was partly caused by restrictions in Claude Code on waiting and running background commands. These small samples do not support a comparison between the models.
 
 \section{Related Work and Positioning}
-Stateful tool benchmarks (tests where an agent changes saved data and later actions depend on those changes), including $\tau$-bench \cite{taubench2025} and ToolSandbox \cite{toolsandbox2025}, grade outcomes rather than judging only the agent's final message. Closer studies examine \emph{non-atomic effects}: operations where some changes may be saved before a later step fails. Verified Tool Calls \cite{verifiedcalls2026} studies software that checks a tool result before treating it as successful. AFT-Bench \cite{aftbench2026} keeps the service and injected failure fixed while changing the tool interface, to test whether the interface itself affects agent performance.
+Stateful tool benchmarks (tests where an agent changes saved data and later actions depend on those changes), including $\tau$-bench \cite{taubench2025} and ToolSandbox \cite{toolsandbox2025}, grade outcomes rather than judging only the agent's final message. Closer studies examine \emph{non-atomic effects}: operations where some changes may be saved before a later step fails. Verified Tool Calls \cite{verifiedcalls2026} studies software that checks a tool result before treating it as successful. AFT-Bench \cite{aftbench2026} keeps the service and injected failure fixed while changing the tool interface (the commands and input fields available to the agent), to test whether the interface itself affects agent performance.
 
 LIMBO \cite{limbo2026} covers six services and twelve failure types across 25,930 attempts. It includes delayed effects and API rules that make repeated requests safe (idempotency; \href{https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/}{API retry guidance}). It also studies when checking saved data cannot prove that an action happened only once. UndoBench \cite{undobench2026} compares normal tasks with tasks interrupted by failures, then checks both saved records and the history of changes. Evidence-Guided Recovery \cite{evidenceguided2026} studies how agents continue when only part of a task has been completed. AgentFaultBench \cite{agentfaultbench2026} tests recovery from tool errors in a software-project environment.
 
@@ -89,6 +90,7 @@ The public \href{https://github.com/Vedant2100/trustval}{TrustVal code and task 
 \section{Conclusion}
 TrustVal's first version could pass an unsafe retry because the error message revealed that the action had been saved and the service ignored repeated requests. Removing those protections exposed duplicate payments and reservations in some model runs, while newer models passed nearly every task in the revised four-task test. The work provides a repeatable test and a concrete example of why agent evaluations must compare what the agent is told with what the service actually saved. Whether agents can handle both possible outcomes of an unclear response remains unmeasured because the test lacks matching cases where the requested change was not saved.
 
+\balance
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
