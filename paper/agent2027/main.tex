@@ -6,11 +6,12 @@
 \usepackage{amsmath}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{balance}
 \begin{document}
 
 \title{TrustVal: An Engineering Case Study of Agent Recovery After Ambiguous Writes}
-\author{\IEEEauthorblockN{Author information pending review}
-\IEEEauthorblockA{Affiliation pending review}}
+\author{\IEEEauthorblockN{Vedant D. Borkute}
+\IEEEauthorblockA{University of California, Riverside}}
 \maketitle
 
 \begin{abstract}
@@ -92,6 +93,7 @@ The public artifact\footnote{\url{https://github.com/Vedant2100/trustval}} inclu
 \section{Conclusion}
 TrustVal illustrates a practical failure in benchmark construction: an evaluation can appear to reward safe recovery while its fault responses reveal the answer or its server suppresses duplicate effects. After correcting these flaws, older evaluated agents sometimes repeated committed writes; later agents largely passed this small fixed test set. The artifact and its documented limits provide a regression test for tool-recovery engineering, not evidence of general transaction safety.
 
+\balance
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
