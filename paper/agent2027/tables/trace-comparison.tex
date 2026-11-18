@@ -8,10 +8,10 @@
 \renewcommand{\arraystretch}{1.07}
 \begin{tabular}{@{}p{0.23\columnwidth}p{0.42\columnwidth}p{0.23\columnwidth}@{}}
 \toprule
-Model and run & After the timeout & Final ledger \\
+Model and run & After the timeout & Final database state \\
 \midrule
 Haiku 4.5 \texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two INV-104 payouts; fail. \\
-Sonnet 4.6 \texttt{7f183c15} & Read status and ledger, then paid only INV-105. & One per invoice; pass. \\
+Sonnet 4.6 \texttt{7f183c15} & Read status and transaction history, then paid only INV-105. & One per invoice; pass. \\
 \bottomrule
 \end{tabular}
 \end{table}
