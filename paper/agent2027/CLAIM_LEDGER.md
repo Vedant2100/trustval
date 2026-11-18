@@ -28,4 +28,4 @@
 4. Line-edit the paper's method and related-work statements against source and full-text prior work, not abstracts alone.
 5. Compile and visually inspect IEEE PDF, cross-check counts, and require owner approval before archival submission.
 
-**Pending:** raw-trajectory independent spot check, full prior-art comparison, source rebuild and rendered PDF check. The draft must be labeled **not submission-ready** until completed.
+**Progress as of Nov 17:** Original trajectories, final messages, and saved regrades for multiple failed and passing v3/v4 examples independently spot-checked; see [TRACE_AUDIT.md](TRACE_AUDIT.md). Full-text prior-work comparison recorded in [NOVELTY_REVIEW.md](NOVELTY_REVIEW.md). A mirrored IEEE source compiled as 3 pages and every rendered page was inspected; see [BUILD_REPORT.md](BUILD_REPORT.md). Still open: direct independent inspection of binary SQLite snapshots (not retrievable via linked GitHub file content), exact PR-head fresh-clone build and source-generator rerun, independent manuscript novelty review, and author approval. **Not submission-ready.**
