@@ -1,6 +1,6 @@
 # TrustVal paper: AGENT 2027 short paper
 
-**Paper source:** [`main.tex`](main.tex). It uses [IEEEtran](https://ctan.org/pkg/ieeetran), the LaTeX document template for IEEE conference papers, at 10-point type. The target venue describes its review as **single-anonymous**: reviewers can see the authors' names, while authors do not see reviewers' names ([AGENT 2027 call for papers](https://conf.researchr.org/home/icse-2027/agent-2027)). This is a draft; it has not been uploaded to the conference or to Overleaf.
+**Paper source:** [`main.tex`](main.tex). It is written in [LaTeX](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), a system for preparing typeset documents, and uses [IEEEtran](https://ctan.org/pkg/ieeetran), the template for conference papers from the Institute of Electrical and Electronics Engineers (IEEE). The rendered paper is a [PDF](https://www.adobe.com/acrobat/about-adobe-pdf.html), or Portable Document Format file. The target venue describes its review as **single-anonymous**: reviewers can see the authors' names, while authors do not see reviewers' names ([AGENT 2027 call for papers](https://conf.researchr.org/home/icse-2027/agent-2027)). This is a draft; it has not been uploaded to the conference or to Overleaf.
 
 ## Paper and experiment files
 
@@ -44,7 +44,7 @@ python paper/agent2027/build_tables.py
 git diff --exit-code -- results/summary_v3.json paper/agent2027/tables/v3-primary.tex
 ```
 
-The first command checks each saved task result against the database checks. The second writes the LaTeX table from the verified summary file. The final command shows whether either file changed. Each model must have ten complete runs of the same four tasks.
+The first command checks each saved task result against the database checks. The second writes the LaTeX table from the verified summary file. The final command uses Git, a version-control system, to show whether either file changed ([Git diff documentation](https://git-scm.com/docs/git-diff)). Each model must have ten complete runs of the same four tasks.
 
 ## Compile without Overleaf
 
@@ -58,7 +58,7 @@ pdflatex -halt-on-error -interaction=nonstopmode main.tex
 pdfinfo main.pdf | grep Pages
 ```
 
-[`pdfLaTeX`](https://www.overleaf.com/learn/latex/PDF) turns the LaTeX manuscript into a PDF. [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex) formats the reference list using `references.bib`. The project uses the IEEEtran template and the LaTeX packages `booktabs`, `amsmath`, `url`, `graphicx`, `balance`, `float`, and `hyperref`. Render and inspect every page; a successful compile alone does not show that the paper is readable.
+[`pdfLaTeX`](https://www.overleaf.com/learn/latex/PDF) turns the LaTeX manuscript into a PDF. [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex) formats the reference list using `references.bib`. The project uses the IEEEtran template and LaTeX packages (add-ons that provide table formatting, equations, links and page layout): `booktabs`, `amsmath`, `url`, `graphicx`, `balance`, `float`, and `hyperref`. Render and inspect every page; a successful compile alone does not show that the paper is readable.
 
 ## Study limits and submission status
 
