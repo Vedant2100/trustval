@@ -1,12 +1,14 @@
 # TrustVal short benchmark paper for AGENT 2027
 
-**Working draft, with a successful three-page local IEEE build preflight; not submission-ready.** The canonical task code, results and traces remain outside this directory. Nothing in this branch changes the experiment or records an official paper submission.
+**Four-page IEEE review draft from exact SHA-verified GitHub source; not submitted.** The canonical task code, results and traces remain outside this directory. Nothing in this branch changes the experiment or records an official paper submission.
 
 - [PLAN.md](PLAN.md): AGENT eligibility and page limit, clear scientific claim, closest prior art, schedule and acceptance gates.
 - [CLAIM_LEDGER.md](CLAIM_LEDGER.md): precise numerical claims, original run traces and verification checklist.
-- [main.tex](main.tex): initial paper text in IEEE conference mode.
-- [references.bib](references.bib): initial verified literature shortlist (not exhaustive).
-- [build_tables.py](build_tables.py): generates [tables/v3-primary.tex](tables/v3-primary.tex) from the saved regraded v3 summary.
+- [main.tex](main.tex): revised IEEE short paper, including the no-commit-counterfactual limitation and narrowly positioned literature.
+- [references.bib](references.bib): eight directly checked relevant academic sources.
+- [build_tables.py](build_tables.py): generates [tables/v3-primary.tex](tables/v3-primary.tex) from the saved regraded v3 summary; source counts checked against the table.
+- [tables/revisions.tex](tables/revisions.tex): benchmark-revision validity matrix.
+- [NOVELTY_REVIEW.md](NOVELTY_REVIEW.md), [TRACE_AUDIT.md](TRACE_AUDIT.md), [BUILD_REPORT.md](BUILD_REPORT.md): independent quality gates and outstanding submission checks.
 
 ## Rebuild the results table
 
@@ -20,7 +22,7 @@ git diff -- paper/agent2027/tables/v3-primary.tex
 
 The first script compares each saved regrade with the hosted Valkyrie score before calculating the summary. The second uses only the resulting summary JSON and asserts ten runs for every model in the main table. Do not manually alter pass counts to fit the narrative.
 
-## Compile and review (still outstanding)
+## Compile and review (verified locally; repeat after any edits)
 
 From `paper/agent2027/` in a working IEEEtran + BibTeX toolchain:
 
@@ -32,7 +34,7 @@ pdflatex -halt-on-error -interaction=nonstopmode main.tex
 pdfinfo main.pdf | grep Pages
 ```
 
-Confirm the full paper is **no more than five pages including references**. Render and inspect **each** page visually: figures, table, math, citations, author details, pagination, and page breaks. The current environment has **not** compiled this branch's exact LaTeX source or independently inspected saved state traces; those gates remain open.
+Confirm the full paper is **no more than five pages including references**. Render and inspect **each** page visually: figures, table, math, citations, author details, pagination, and page breaks. The current branch's four compile inputs have been matched by Git blob SHA to the local sources and compiled into a **4-page** PDF. Each rendered page was visually inspected. Selected raw traces and all twenty Claude v3 saved regrades were separately audited. See [BUILD_REPORT.md](BUILD_REPORT.md) and [TRACE_AUDIT.md](TRACE_AUDIT.md). The binary SQLite exports were not independently reread; an owner-approved HotCRP submission has not occurred.
 
 ## Editorial guardrails
 
