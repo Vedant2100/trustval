@@ -29,3 +29,13 @@
 5. Compile and visually inspect IEEE PDF, cross-check counts, and require owner approval before archival submission.
 
 **Progress as of Nov 17:** Original trajectories, final messages, and saved regrades for multiple failed and passing v3/v4 examples independently spot-checked; see [TRACE_AUDIT.md](TRACE_AUDIT.md). Full-text prior-work comparison recorded in [NOVELTY_REVIEW.md](NOVELTY_REVIEW.md). A mirrored IEEE source compiled as 3 pages and every rendered page was inspected; see [BUILD_REPORT.md](BUILD_REPORT.md). Still open: direct independent inspection of binary SQLite snapshots (not retrievable via linked GitHub file content), exact PR-head fresh-clone build and source-generator rerun, independent manuscript novelty review, and author approval. **Not submission-ready.**
+
+## Additional independent score audit (2026-11-17)
+
+Read all **20 saved v3 `regrade.json` files** for Claude Haiku 4.5 (10 runs) and Claude Sonnet 4.6 (10 runs) directly from the canonical repository and compared their task-success fields with the pinned `results/summary_v3.json`.
+
+- **Haiku 4.5:** 21 failed task-trials, each with `exactly_once=0`; failure breakdown by scenario: commit timeout **4**, partial batch **7**, duplicate delivery **10**, stale read **0**.
+- **Sonnet 4.6:** 5 failed task-trials, each with `exactly_once=0`; failure breakdown: commit timeout **0**, partial batch **3**, duplicate delivery **2**, stale read **0**.
+- **Total:** 26 failed out of 80 repeated task-trials; all 26 saved verifiers identify an exactly-once violation. This directly checks the score-level and duplication consequences. Attribution to an agent's `blind retry` action still rests on the trajectory classification in `RESULTS.md`, supported by representative independent raw-trace checks described in `TRACE_AUDIT.md`. This is **not** a reread of all 80 trajectories or of all binary SQLite exports.
+
+**New central limitation after further prior-work review:** all injected v3 transport errors follow a committed (or partially committed) operation. No matched, indistinguishable *uncommitted* timeout is included; never present success as verified mastery of the full uncertainty problem. In particular, no-retry can succeed on the single-write commit cases. Existing LIMBO, UndoBench, AFT-Bench, Verified Tool Calls and newly posted AgentFaultBench directly investigate neighboring or stronger designs; the paper focuses on an honest engineering case study.
