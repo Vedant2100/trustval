@@ -1,0 +1,73 @@
+% AGENT 2027 short BENCHMARK paper. DRAFT ONLY.
+% Max 5 pages INCLUDING references, single-anonymous, IEEE conference style.
+% Numbers must be regenerated/audited against results/summary_v3.json and RESULTS.md.
+\documentclass[10pt,conference]{IEEEtran}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{graphicx}
+\begin{document}
+
+\title{TrustVal: A State-Reconciliation Regression Test for Tool-Using Agents}
+\author{\IEEEauthorblockN{Author information pending review}
+\IEEEauthorblockA{Affiliation pending review}}
+\maketitle
+
+\begin{abstract}
+A tool call can change durable state even when the caller receives a timeout. An agent that treats the error as proof of failure may repeat a non-idempotent operation, while an agent's final report may not disclose the duplicate. We describe TrustVal, a small execution-backed benchmark that tests recovery after ambiguous tool outcomes in four simulated operational workflows. Its hidden verifier checks the final SQLite state, rather than the agent's explanation. An initial version gave away commit outcomes and made retries harmless. A revised version removed these confounds and exposed duplicate effects: Claude Haiku 4.5 passed 19/40 task-trials and Sonnet 4.6 passed 35/40, with all 26 failures attributable to blind retries. Later models passed nearly all trials; adding bounded delayed visibility also left the benchmark largely saturated. TrustVal is therefore a reproducible regression test and benchmark-design case study, not evidence that currently evaluated agents broadly fail to reconcile tool state.
+\end{abstract}
+
+\section{Introduction}
+A timeout after an API mutation leaves an important question unanswered: did the operation commit? Retrying a payout, reservation, or account creation may create a second effect. Stopping may instead leave work incomplete. The response code alone cannot distinguish these outcomes.
+
+Distributed systems have long recognized this ambiguity, and agent benchmarks already test tool recovery and effect duplication at scale \cite{limbo2026,undobench2026}. TrustVal does not introduce the problem. Our contribution is a compact, inspectable software-engineering evaluation of what an agent does when a mutation's acknowledgement is lost. The benchmark uses an isolated API and durable database, with grading performed from the database after the agent exits.
+
+Our motivating observation concerns benchmark construction. In an early implementation, error strings identified the hidden result and the server deduplicated retries, so both tested agents passed all four tasks. After changing several aspects of the task and tool contract, the same benchmark family revealed unsafe retry decisions. Later models mostly passed even the revised tasks.
+
+We address two research questions: \textbf{RQ1}: What parts of the evaluation design can conceal unsafe retry behavior? \textbf{RQ2}: What failure behaviors do the measured models exhibit under the revised tasks, and where does the instrument stop discriminating?
+
+\section{Benchmark Design}
+\subsection{Execution and grading}
+Each TrustVal task packages a command-line client and a small HTTP API backed by a SQLite ledger. The agent executes shell commands in its own container and can query state only through documented API operations. The API database resides in a separate sidecar, not in the agent container. After execution, a verifier inspects the saved database independently of the model's final response.
+
+The verifier requires all requested business effects, exactly one committed record per requested operation, and no unrelated or duplicate changes. This is \emph{exactly-once task success in our synthetic environment}, not an end-to-end transaction guarantee for arbitrary distributed services.
+
+The four tasks exercise: (1) a committed payout followed by HTTP 504; (2) a role grant with a stale membership view and authoritative audit/status endpoint; (3) a batch reservation in which two of three items commit before HTTP 504; and (4) a created account followed by HTTP 502. These are four variations on state reconciliation, not four independent research capabilities. Errors, when injected, occur once at fixed locations.
+
+\subsection{Why the benchmark changed}
+In version 2 (v2), the error text disclosed which mutation had committed, and server-side idempotency and uniqueness checks prevented duplicate effects. Haiku 4.5 and Sonnet 4.6 each scored 4/4 in a single trial per task. These scores could not distinguish careful recovery from unsafe retrying.
+
+The version 3 (v3) protocol, recorded before its model runs, replaced outcome-revealing errors with ordinary 502/504 responses, removed server-side duplicate suppression, removed task-specific recovery hints, and provided authoritative read paths. A naive policy that repeats failed writes scores zero on all four tasks; a state-checking reference policy passes all four, as does the hosted oracle. Multiple components changed together: the v2-to-v3 comparison is a construct-validity demonstration, \emph{not} an experiment isolating the effect of one modification.
+
+\section{Experimental Protocol}
+We ran the tasks in Valkyrie/Harbor with the Modal VM provider. Claude models used the official Claude Code harness, and OpenAI models used the Codex harness. The GPT-5.x dataset has an additional OpenAI API network allowlist; otherwise the v3 tasks and verifiers match the Claude version. Cross-provider results therefore also reflect different harnesses and cannot isolate model effects.
+
+Seven models were each evaluated in ten separate runs of the same four fixed tasks, one trial per task per run. Three GPT-6-family models were tested once each as exploratory checks and are excluded from the main table and model comparison. The outcome is a binary hidden-database verifier score. Saved databases were independently regraded and matched the hosted grades. We distinguish agent errors from setup failures and oracle/control runs. Run-level scores, not the four correlated tasks within a run, are the units used in the reported permutation comparison.
+
+\section{Results}
+\subsection{The revised benchmark exposes duplicate writes}
+Table~\ref{tab:v3} reports v3 task success. Claude Haiku 4.5 passed 19/40 trials and Claude Sonnet 4.6 passed 35/40; their average run scores differed by 1.6 of four tasks (two-sided exact run-level permutation $p=2.3\times10^{-4}$). The sample repeatedly uses the same four scenarios, so this test does not estimate a difference over an unseen population of tasks.
+
+\input{tables/v3-primary.tex}
+
+Inspecting the final databases and trajectories attributes all 26 Claude 4.x failed task-trials to duplicated effects after an unverified repeat of a committed write. The frequency of duplicate errors differs from \emph{whether the agent notices one}: Haiku 4.5 disclosed a duplicate in 17 of its 21 failures; Sonnet 4.6 reported an entirely successful outcome in four of its five failures. A fluent final report was therefore insufficient evidence of correctness.
+
+GPT-5.3-Codex passed 34/40 trials and duplicated effects in its six failures. Haiku 5.5 passed 39/40, while Sonnet 5.5, Opus 5.5, and GPT-5.4 passed 40/40 each. The one Haiku 5.5 failure was an argument-order error with no injected fault. Three GPT-6 variants each passed four tasks in one run; we do not interpret those four-trial pilots as precision estimates.
+
+\subsection{A harder condition also approaches a ceiling}
+In version 4, committed writes remained invisible to reads for 30 seconds, while API documentation stated that visibility could take up to 60 seconds. The documented careful policy and hosted oracle passed all tasks, while a check-once retry policy failed. In three four-task runs each, Haiku 5.5 passed 11/12, Sonnet 5.5 12/12, and GPT-6.1 Terra 12/12. In the single failure, the agent's attempted wait interacted with the Claude Code harness and it retried while the first effect remained hidden. This is a limited stress test, not a powered comparison of current models.
+
+\section{Related Work and Novelty}
+Stateful tool benchmarks such as $\tau$-bench \cite{taubench2025} and ToolSandbox \cite{toolsandbox2025} evaluate agents against evolving external state. UndoBench \cite{undobench2026} separates nominal task competence from fault recovery, using paired workflows and effect-history checks. LIMBO \cite{limbo2026} more extensively varies contracts, harnesses, models, and fault modes, including late commits and at-least-once delivery; it also establishes that contract support can be necessary when read-back cannot resolve an in-flight write. Evidence-guided recovery work \cite{evidenceguided2026} studies protocol-aware recovery decisions. TrustVal does not replace these larger evaluations. Its narrower artifact and recorded v2/v3/v4 changes illustrate how a small reproducible regression test can expose or hide unsafe retries in an actual terminal-agent execution harness.
+
+\section{Limitations and Implications}
+The study uses four deterministic synthetic tasks, not live financial or access-management systems. The results do not establish general reliability across unseen scenarios. The v3 \texttt{stale\_read} task was solved in all runs and did not discriminate; the reference solution for the partial-batch task uses single-item commands, avoiding that specific injected batch fault, although evaluated model runs used the batch command. The v2/v3 changes were not factorized. The prompt and tool contracts are public, so contamination cannot be ruled out. Cross-provider comparisons confound model and harness. The v4 study has only three runs per model, and its one failure was partly shaped by harness restrictions. No compensating action is available to undo duplicates.
+
+These limits are part of what the benchmark measures. A durable-state verifier catches failures that final replies can conceal. Conversely, near-ceiling scores on a small fixed test set should not be presented as proof of general exactly-once agent behavior.
+
+\section{Conclusion}
+TrustVal provides an execution-backed, inspectable regression test for recovery after ambiguous mutations. Its design history shows why fault messages, tool contracts, and independent grading matter when interpreting benchmark scores. The evaluated older models sometimes retried committed writes, while the evaluated later models largely passed this task set. The result is an engineering test and a documented validity boundary, not a claim of broad agent safety.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
