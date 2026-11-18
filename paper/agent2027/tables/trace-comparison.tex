@@ -10,8 +10,8 @@
 \toprule
 Model and run & After the timeout & Final database state \\
 \midrule
-Haiku 4.5 \texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two INV-104 payouts; fail. \\
-Sonnet 4.6 \texttt{7f183c15} & Read status and transaction history, then paid only INV-105. & One per invoice; pass. \\
+Haiku 4.5 \texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two payments for INV-104; fail. \\
+Sonnet 4.6 \texttt{7f183c15} & Checked the payment record, then paid only INV-105. & One payment per invoice; pass. \\
 \bottomrule
 \end{tabular}
 \end{table}
