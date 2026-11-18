@@ -1,0 +1,17 @@
+% Version contrasts are descriptive. Several factors changed together between v2/v3.
+\begin{table}[t]
+\centering
+\caption{Changes to the TrustVal evaluation instrument. Controls are scripted oracles, not model results.}
+\label{tab:versions}
+\scriptsize
+\renewcommand{\arraystretch}{1.10}
+\begin{tabular}{@{}p{0.11\columnwidth}p{0.40\columnwidth}p{0.37\columnwidth}@{}}
+\toprule
+Version & Ambiguous outcome and tool behavior & Validation and observed limit \\
+\midrule
+v2 & Errors disclosed committed effects; server deduplicated repeats. & Haiku 4.5 and Sonnet 4.6 each passed 4/4 in one run. \\
+v3 & Ordinary 502/504; non-idempotent writes; authoritative reads; no recovery hints. & Blind-retry control 0/4, reference and oracle 4/4; current-model ceiling. \\
+v4 & Commits invisible for 30 s; API help warned of up to 60 s read lag. & Check-once control 0/4, waiting reference and oracle 4/4; tested newer models passed 35/36. \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,21 @@
+% Generated directly from results/summary_v3.json (canonical source).
+% Rebuild with python paper/agent2027/build_tables.py and compare tracked diff.
+\begin{table*}[t]
+\centering
+\caption{TrustVal v3 task successes on four fixed scenarios (ten independent four-task runs per model). Each denominator of 10 is repeated execution of one scenario, not ten distinct tasks. Across-provider comparisons involve different CLI harnesses.}
+\label{tab:v3}
+\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Model & Commit timeout & Stale read & Partial batch & Duplicate delivery & Total \\
+\midrule
+Claude Haiku 4.5 & 6/10 & 10/10 & 3/10 & 0/10 & 19/40 \\
+Claude Sonnet 4.6 & 10/10 & 10/10 & 7/10 & 8/10 & 35/40 \\
+Claude Haiku 5.5 & 10/10 & 10/10 & 10/10 & 9/10 & 39/40 \\
+Claude Sonnet 5.5 & 10/10 & 10/10 & 10/10 & 10/10 & 40/40 \\
+Claude Opus 5.5 & 10/10 & 10/10 & 10/10 & 10/10 & 40/40 \\
+GPT-5.3-Codex & 10/10 & 10/10 & 9/10 & 5/10 & 34/40 \\
+GPT-5.4 & 10/10 & 10/10 & 10/10 & 10/10 & 40/40 \\
+\bottomrule
+\end{tabular}
+\end{table*}
