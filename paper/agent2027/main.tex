@@ -8,13 +8,14 @@
 \usepackage{graphicx}
 \begin{document}
 
-\title{TrustVal: A State-Reconciliation Regression Test for Tool-Using Agents}
+\title{TrustVal: An Engineering Case Study of Agent Recovery After Ambiguous Writes}
 \author{\IEEEauthorblockN{Author information pending review}
 \IEEEauthorblockA{Affiliation pending review}}
 \maketitle
 
 \begin{abstract}
-A tool call can change durable state even when the caller receives a timeout. An agent that treats the error as proof of failure may repeat a non-idempotent operation, while an agent's final report may not disclose the duplicate. We describe TrustVal, a small execution-backed benchmark that tests recovery after ambiguous tool outcomes in four simulated operational workflows. Its hidden verifier checks the final SQLite state, rather than the agent's explanation. An initial version gave away commit outcomes and made retries harmless. A revised version removed these confounds and exposed duplicate effects: Claude Haiku 4.5 passed 19/40 task-trials and Sonnet 4.6 passed 35/40, with all 26 failures attributable to blind retries. Later models passed nearly all trials; adding bounded delayed visibility also left the benchmark largely saturated. TrustVal is therefore a reproducible regression test and benchmark-design case study, not evidence that currently evaluated agents broadly fail to reconcile tool state.
+A mutating tool call may commit even when its caller receives a timeout. Evaluations that score only completion messages, or APIs that silently deduplicate writes, can hide an agent's unsafe retries. We report TrustVal, an executable four-scenario regression benchmark with isolated durable state and a final-state verifier, focusing on the engineering changes required to make such behavior observable. An early version disclosed the outcome in error text and neutralized duplicates; both initially tested agents passed 4/4. After a documented redesign, Claude Haiku 4.5 and Sonnet 4.6 passed 19/40 and 35/40 repeated task-trials, respectively. A trace audit attributes their 26 failures to duplicate effects from retrying committed writes, sometimes followed by false success reports. Later evaluated models nearly saturated this version and a bounded-delay extension. The fixed post-commit faults do not test all outcomes that an ambiguous error can conceal. TrustVal is thus a compact benchmark-validity case study and regression artifact, not a new exactly-once protocol or a general reliability ranking.
+
 \end{abstract}
 
 \section{Introduction}
@@ -27,7 +28,7 @@ Our motivating observation concerns benchmark construction. In an early implemen
 We address two research questions: \textbf{RQ1}: What parts of the evaluation design can conceal unsafe retry behavior? \textbf{RQ2}: What failure behaviors do the measured models exhibit under the revised tasks, and where does the instrument stop discriminating?
 
 \input{tables/v3-primary.tex}
-\noindent\textbf{Contributions.} (i) An executable four-scenario Harbor/Valkyrie test with an isolated state service and a verifier that ignores natural-language claims; (ii) an engineering record of a non-discriminative early benchmark and the revised controls that exposed unsafe retries; and (iii) a trace-backed report of both older-model failure modes and newer-model ceiling effects. We do not present an algorithm for recovering distributed transactions, nor claim to isolate individual changes between dataset versions.
+\noindent\textbf{Contributions.} We provide (i) an executable four-scenario Harbor/Valkyrie task set and independent state-based checker; (ii) a documented redesign showing how leaked commit outcomes and duplicate-suppressing APIs compromised the initial instrument; and (iii) trace-grounded results showing blind retries, misleading completion claims, and the instrument's ceiling. Unlike paired counterfactual recovery studies, we neither isolate individual redesign components nor evaluate both commit and non-commit outcomes behind the same timeout.
 
 \section{Benchmark Design}
 \subsection{Execution and grading}
@@ -47,6 +48,8 @@ The benchmark's observable outcome depends both on the agent and on its environm
 
 The v3 controls were checked before evaluation: a scripted blind-retry policy failed all four scenarios, a careful script passed all four, and the hosted oracle passed 4/4. One qualification matters: the scripted reference solution for the batch task reserves each item separately. It never calls the fault-triggering batch operation, whereas every evaluated model run did. This validates the final-state grader and an available safe route, but it does not by itself prove recovery from a failed batch. The v3 protocol was documented before counted runs; later model extensions were documented separately. No component-wise ablation of the v2-to-v3 redesign was run.
 
+\input{tables/revisions.tex}
+
 \section{Experimental Protocol}
 We ran the tasks in Valkyrie/Harbor with the Modal VM provider. Claude models used the official Claude Code harness, and OpenAI models used the Codex harness. The GPT-5.x dataset has an additional OpenAI API network allowlist; otherwise the v3 tasks and verifiers match the Claude version. Cross-provider results therefore also reflect different harnesses and cannot isolate model effects.
 
@@ -57,7 +60,7 @@ Seven models were each evaluated in ten separate runs of the same four fixed tas
 Table~\ref{tab:v3} reports v3 task success. Claude Haiku 4.5 passed 19/40 trials and Claude Sonnet 4.6 passed 35/40; their average run scores differed by 1.6 of four tasks (two-sided exact run-level permutation $p=2.3\times10^{-4}$). The sample repeatedly uses the same four scenarios, so this test does not estimate a difference over an unseen population of tasks.
 
 
-Inspecting the final databases and trajectories attributes all 26 Claude 4.x failed task-trials to duplicated effects after an unverified repeat of a committed write. The frequency of duplicate errors differs from \emph{whether the agent notices one}: Haiku 4.5 disclosed a duplicate in 17 of its 21 failures; Sonnet 4.6 reported an entirely successful outcome in four of its five failures. A fluent final report was therefore insufficient evidence of correctness.
+The recorded manual classification of the 26 Claude 4.x failed task-trials attributes every one to duplicated effects after a blind repeat of a committed write; we independently spot-checked representative saved trajectories and regrades. The frequency of duplicate errors differs from \emph{whether the agent notices one}: Haiku 4.5 disclosed a duplicate in 17 of its 21 failures; Sonnet 4.6 reported an entirely successful outcome in four of its five failures. A fluent final report was therefore insufficient evidence of correctness.
 
 GPT-5.3-Codex passed 34/40 trials and duplicated effects in its six failures. Haiku 5.5 passed 39/40, while Sonnet 5.5, Opus 5.5, and GPT-5.4 passed 40/40 each. The one Haiku 5.5 failure was an argument-order error with no injected fault. Three GPT-6 variants each passed four tasks in one run; we do not interpret those four-trial pilots as precision estimates.
 
