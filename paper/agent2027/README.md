@@ -1,6 +1,6 @@
 # TrustVal short benchmark paper for AGENT 2027
 
-**Early working draft, not yet compiled or submission-ready.** The canonical task code, results and traces remain outside this directory. Nothing in this branch changes the experiment or records an official paper submission.
+**Working draft, with a successful three-page local IEEE build preflight; not submission-ready.** The canonical task code, results and traces remain outside this directory. Nothing in this branch changes the experiment or records an official paper submission.
 
 - [PLAN.md](PLAN.md): AGENT eligibility and page limit, clear scientific claim, closest prior art, schedule and acceptance gates.
 - [CLAIM_LEDGER.md](CLAIM_LEDGER.md): precise numerical claims, original run traces and verification checklist.
