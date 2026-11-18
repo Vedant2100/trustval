@@ -39,6 +39,7 @@ In version 2 (v2), the error text disclosed which mutation had committed, and se
 
 The version 3 (v3) protocol, recorded before its model runs, replaced outcome-revealing errors with ordinary 502/504 responses, removed server-side duplicate suppression, removed task-specific recovery hints, and provided authoritative read paths. A naive policy that repeats failed writes scores zero on all four tasks; a state-checking reference policy passes all four, as does the hosted oracle. Multiple components changed together: the v2-to-v3 comparison is a construct-validity demonstration, \emph{not} an experiment isolating the effect of one modification.
 
+\input{tables/v3-primary.tex}
 \section{Experimental Protocol}
 We ran the tasks in Valkyrie/Harbor with the Modal VM provider. Claude models used the official Claude Code harness, and OpenAI models used the Codex harness. The GPT-5.x dataset has an additional OpenAI API network allowlist; otherwise the v3 tasks and verifiers match the Claude version. Cross-provider results therefore also reflect different harnesses and cannot isolate model effects.
 
@@ -48,7 +49,6 @@ Seven models were each evaluated in ten separate runs of the same four fixed tas
 \subsection{The revised benchmark exposes duplicate writes}
 Table~\ref{tab:v3} reports v3 task success. Claude Haiku 4.5 passed 19/40 trials and Claude Sonnet 4.6 passed 35/40; their average run scores differed by 1.6 of four tasks (two-sided exact run-level permutation $p=2.3\times10^{-4}$). The sample repeatedly uses the same four scenarios, so this test does not estimate a difference over an unseen population of tasks.
 
-\input{tables/v3-primary.tex}
 
 Inspecting the final databases and trajectories attributes all 26 Claude 4.x failed task-trials to duplicated effects after an unverified repeat of a committed write. The frequency of duplicate errors differs from \emph{whether the agent notices one}: Haiku 4.5 disclosed a duplicate in 17 of its 21 failures; Sonnet 4.6 reported an entirely successful outcome in four of its five failures. A fluent final report was therefore insufficient evidence of correctness.
 
