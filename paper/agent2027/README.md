@@ -22,7 +22,7 @@ A **task manifest** is a configuration file describing a test task and how it is
 
 ## View the paper in Overleaf
 
-Create a self-contained Overleaf project ZIP from a checkout of this branch:
+Create a self-contained Overleaf project ZIP archive (a compressed folder containing the manuscript and its source files; see the \[Library of Congress format description\](https://www.loc.gov/preservation/digital/formats/fdd/fdd000354.shtml)) from a checkout of this branch:
 
 ```bash
 python paper/agent2027/export_overleaf.py --output trustval-overleaf.zip
