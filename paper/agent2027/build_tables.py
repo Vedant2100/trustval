@@ -44,7 +44,7 @@ for key, name in ORDER:
 lines = [
     "% Generated from results/summary_v3.json. Do not hand-edit counts.",
     "% CT=commit timeout; SR=stale read; PB=partial batch; DD=duplicate delivery.",
-    r"\begin{table}[t]",
+    r"\begin{table}[H]",
     r"\centering",
     r"\caption{Passes on four fixed v3 tasks, ten repeated runs per model. CT: commit timeout; SR: stale read; PB: partial batch; DD: duplicate delivery. Different providers used different agent harnesses.}",
     r"\label{tab:v3}",
