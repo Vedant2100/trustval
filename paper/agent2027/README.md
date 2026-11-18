@@ -1,30 +1,45 @@
-# TrustVal short benchmark paper for AGENT 2027
+# TrustVal paper: AGENT 2027 short experience / benchmark report
 
-**Four-page IEEE review draft from exact SHA-verified GitHub source; not submitted.** The canonical task code, results and traces remain outside this directory. Nothing in this branch changes the experiment or records an official paper submission.
+**Paper source:** [main.tex](main.tex) (IEEEtran conference format, 10 pt, single-anonymous). The paper is a draft; no upload to AGENT HotCRP or Overleaf is implied.
 
-- [PLAN.md](PLAN.md): AGENT eligibility and page limit, clear scientific claim, closest prior art, schedule and acceptance gates.
-- [CLAIM_LEDGER.md](CLAIM_LEDGER.md): precise numerical claims, original run traces and verification checklist.
-- [main.tex](main.tex): revised IEEE short paper, including the no-commit-counterfactual limitation and narrowly positioned literature.
-- [references.bib](references.bib): eight directly checked relevant academic sources.
-- [build_tables.py](build_tables.py): generates [tables/v3-primary.tex](tables/v3-primary.tex) from the saved regraded v3 summary; source counts checked against the table.
-- [tables/revisions.tex](tables/revisions.tex): benchmark-revision validity matrix.
-- [NOVELTY_REVIEW.md](NOVELTY_REVIEW.md), [TRACE_AUDIT.md](TRACE_AUDIT.md), [BUILD_REPORT.md](BUILD_REPORT.md): independent quality gates and outstanding submission checks.
+## Read and edit the paper
 
-## Rebuild the results table
+- `main.tex`: manuscript, results, engineering lessons and limitations.
+- `references.bib`: cited literature.
+- `tables/v3-primary.tex`: **generated** seven-model results table; do not hand-edit.
+- `tables/revisions.tex`: descriptive v2/v3/v4 instrument-design comparison.
+- `tables/trace-comparison.tex`: observed command-level difference between one failed and one successful payout recovery.
+- `CLAIM_LEDGER.md`, `TRACE_AUDIT.md`, `NOVELTY_REVIEW.md`: evidence, raw-trace spot checks and unresolved scientific threats.
+
+All paper sources live under `paper/agent2027/`; the research datasets and runtime artifacts remain in the repository's `results/` and `tasks/` folders.
+
+## View in Overleaf (no premium integration required)
+
+To make a self-contained Overleaf import ZIP from a checkout of this branch:
+
+```bash
+python paper/agent2027/export_overleaf.py --output trustval-overleaf.zip
+```
+
+On [Overleaf](https://www.overleaf.com/project), select **New Project → Upload Project**, choose `trustval-overleaf.zip`, set **main document** to `main.tex` (usually autodetected), and compile using **pdfLaTeX**. The ZIP contains only the five LaTeX inputs in the directory layout they require; no full GitHub repository, dataset, compiled output, or private credentials are needed. [Overleaf's official project-upload instructions](https://docs.overleaf.com/managing-projects-and-files/uploading-a-project).
+
+**This is an import, not live sync.** Overleaf GitHub synchronization requires an eligible premium account and a new Overleaf project imported from a GitHub repository; it pulls from GitHub manually rather than automatically. Because this repository also includes run outputs and agent code, GitHub-syncing the whole repository to Overleaf is not the recommended paper-editing workflow. [Official GitHub sync instructions](https://docs.overleaf.com/integrations-and-add-ons/git-integration-and-github-synchronization/github-synchronization).
+
+## Reproduce the results table
 
 From the repository root:
 
 ```bash
 python scripts/aggregate.py v3
 python paper/agent2027/build_tables.py
-git diff -- paper/agent2027/tables/v3-primary.tex
+git diff --exit-code -- results/summary_v3.json paper/agent2027/tables/v3-primary.tex
 ```
 
-The first script compares each saved regrade with the hosted Valkyrie score before calculating the summary. The second uses only the resulting summary JSON and asserts ten runs for every model in the main table. Do not manually alter pass counts to fit the narrative.
+The aggregator checks locally regraded task success against stored hosted results. The generator requires ten complete four-task runs per model and preserves exact denominators.
 
-## Compile and review (verified locally; repeat after any edits)
+## Compile without Overleaf
 
-From `paper/agent2027/` in a working IEEEtran + BibTeX toolchain:
+From `paper/agent2027/`:
 
 ```bash
 pdflatex -halt-on-error -interaction=nonstopmode main.tex
@@ -34,10 +49,10 @@ pdflatex -halt-on-error -interaction=nonstopmode main.tex
 pdfinfo main.pdf | grep Pages
 ```
 
-Confirm the full paper is **no more than five pages including references**. Render and inspect **each** page visually: figures, table, math, citations, author details, pagination, and page breaks. The current branch's four compile inputs have been matched by Git blob SHA to the local sources and compiled into a **4-page** PDF. Each rendered page was visually inspected. Selected raw traces and all twenty Claude v3 saved regrades were separately audited. See [BUILD_REPORT.md](BUILD_REPORT.md) and [TRACE_AUDIT.md](TRACE_AUDIT.md). The binary SQLite exports were not independently reread; an owner-approved HotCRP submission has not occurred.
+Use IEEEtran/TeX Live with `booktabs`, `amsmath`, `url`, `graphicx`, and `balance` packages. Render and inspect every page; passing LaTeX alone is insufficient.
 
-## Editorial guardrails
+## Scientific and submission boundaries
 
-No paper claims outside the exact [RESULTS.md](../../RESULTS.md) and source artifacts. Explicitly compare with earlier LIMBO, UndoBench and protocol-aware recovery work; use the design-validity and regression-test contribution only if it survives that comparison. No hype, no unsupported causal interpretation, no fabricated multi-seed numbers, no proxy vs real failures conflation, no generic AI prose or gratuitous em dashes. No submission without an independent final PDF check and author approval.
+This study reports **four fixed tasks**, ten repeated runs per model for v3, and only a small three-run v4 pilot. It does **not** include indistinguishable timeouts both with and without a committed write, and v2→v3 changed several factors together. Cross-provider comparisons are harness-confounded, while the batch reference policy avoids the batch endpoint. Preserve these facts during writing edits. The title, author list, and final venue submission remain subject to owner approval.
 
-Official venue: https://conf.researchr.org/home/icse-2027/agent-2027. Deadline: November 20, 2026, 23:59 AoE. Portal: https://icse2027-agent.hotcrp.com/.
+Official CFP: [AGENT 2027](https://conf.researchr.org/home/icse-2027/agent-2027). Short paper: **at most five pages including references**; deadline **November 20, 2026 at 23:59 AoE**. This repo's PR review and Overleaf import are **not** an archival submission.
