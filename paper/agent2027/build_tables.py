@@ -46,7 +46,7 @@ lines = [
     "% CT=timeout after payout saved; SR=old membership after role change; PB=two reservations saved before timeout; DD=repeat request saved twice.",
     r"\begin{table}[H]",
     r"\centering",
-    r"\caption{Passes on the same four v3 tasks, each repeated ten times per model. A pass means the saved records met the task rules. CT: timeout after a payout was saved; SR: old membership information returned after a role change; PB: two of three reservations saved before timeout; DD: a repeated request saved a second copy. Different providers used different agent software to run and record the models.}",
+    r"\caption{Passes on the same four v3 tasks, each repeated ten times per model. A pass means the saved records met the task rules. CT: \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/504}{HTTP 504 timeout} after a payout was saved; SR: old membership information returned after a role change; PB: two of three reservations saved before timeout; DD: a repeated request saved a second copy. Different providers used different agent software to run and record the models.}",
     r"\label{tab:v3}",
     r"\scriptsize",
     r"\setlength{\tabcolsep}{2.5pt}",
