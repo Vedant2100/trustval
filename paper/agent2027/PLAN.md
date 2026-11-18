@@ -9,14 +9,14 @@ Official conference: [AGENT 2027, 2nd International Workshop on Agentic Engineer
 - **Category:** Short **benchmark/tool/empirical** paper, not a full 8-page research paper.
 - **Length:** maximum **5 IEEE-formatted pages, references included**; no paid extra pages. Do not count references as an extra page.
 - **Template:** IEEE conference proceedings, `\documentclass[10pt,conference]{IEEEtran}`; no `compsoc` or `compsocconf` option. Use actual two-column pagination, not a word-count approximation.
-- **Review:** single-anonymous, not double-anonymous. Do not falsely assert anonymization is required. Final author/affiliation block remains a user decision; draft uses placeholders.
+- **Review:** single-anonymous, not double-anonymous. Do not falsely assert anonymization is required. The paper provisionally names Vedant D. Borkute (University of California, Riverside); final author list and affiliation still require owner approval.
 - **Publication:** accepted papers published by IEEE; treat later archival overlap and dual submission seriously.
 - **Deadline:** **2026-11-20, 23:59 AoE (UTC-12)**, which is **2026-11-21, 03:59 PST**. [Submission portal](https://icse2027-agent.hotcrp.com/). Acceptance notification Dec 11, 2026; camera-ready Jan 29, 2027. No submission is attempted by this plan.
 - **Scope:** engineering, testing, benchmarking, tool-use reliability, operational recoverability. Avoid treating generic financial automation or "AI safety" as the contribution.
 
 ## 2. Honest thesis and originality gate
 
-**Working title:** *TrustVal: A State-Reconciliation Regression Test for Tool-Using Agents*.
+**Working title:** *TrustVal: An Engineering Case Study of Agent Recovery After Ambiguous Writes*.
 
 **Thesis:** The result of a tool invocation is not the same as its durable side effects. TrustVal is a compact, executable four-task regression benchmark that grades database effects rather than fluent reports. Its design history demonstrates how outcome-revealing errors and server-side deduplication can make unsafe retry strategies look correct. On a revised version with ordinary errors and non-idempotent writes, some evaluated older models duplicate effects while newer evaluated models mostly reconcile the state. A separate delayed-visibility variant shows the present test's limits.
 
@@ -95,3 +95,13 @@ Do **not** ask whether v3/v4 proves modern models generally safe. It does not.
 - [ ] IEEEtran compile succeeds; <=5 pages **including references**; rendered PDF reviewed page by page.
 - [ ] No unanswered TODO, stale claims, accidental private data, unverifiable references or AI-like boilerplate.
 - [ ] Owner reviews paper and explicitly authorizes any external submission. Store submission receipt if submitted.
+
+
+## November 17 manuscript maturity update
+
+- **Revised IEEE PDF:** 4 pages **including references**, exact GitHub compile-input files SHA-verified against the successful local pdfLaTeX/BibTeX build and visually checked on every page. Source and complete build report: [BUILD_REPORT.md](BUILD_REPORT.md).
+- **Primary score re-audit:** all 20 saved Claude v3 per-run regrades checked; 21 Haiku + 5 Sonnet failures, each with `exactly_once=0`. Main table directly compared against seven models' `results/summary_v3.json` rows; exact run-level permutation p = 42/184756.
+- **Newly audited primary limitation:** all injected v3 transport errors occur after a full or partial commit. No observationally matched uncommitted timeout is tested; a 'never retry' policy could pass some single-write tasks. This is stated prominently under Threats to Validity.
+- **Wider direct prior art:** added Verified Tool Calls (arXiv:2608.02645), AFT-Bench (2608.23628), and AgentFaultBench (2611.20711, posted Nov 16) alongside LIMBO and UndoBench. The manuscript no longer contains internal editorial commentary about whether reviewers should accept the work.
+- **Author:** provisional Vedant D. Borkute / University of California, Riverside; confirm any coauthors before submission.
+- **Conclusion:** best current-evidence *short benchmark/engineering experience* draft, with credible but modest incremental novelty. No new model experiments, no external conference submission, no acceptance implied. User approval and double-submission check remain prerequisites for an official submission.
