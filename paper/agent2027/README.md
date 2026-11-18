@@ -58,7 +58,7 @@ pdflatex -halt-on-error -interaction=nonstopmode main.tex
 pdfinfo main.pdf | grep Pages
 ```
 
-[`pdfLaTeX`](https://www.overleaf.com/learn/latex/PDF) turns the LaTeX manuscript into a PDF. [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex) formats the reference list using `references.bib`. The project uses the IEEEtran template and LaTeX packages (add-ons that provide table formatting, equations, links and page layout): `booktabs`, `amsmath`, `url`, `graphicx`, `balance`, `float`, and `hyperref`. Render and inspect every page; a successful compile alone does not show that the paper is readable.
+[`pdfLaTeX`](https://www.overleaf.com/learn/latex/PDF) turns the LaTeX manuscript into a PDF. [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex) formats the reference list using `references.bib`. [`pdfinfo`](https://manpages.debian.org/bookworm/poppler-utils/pdfinfo.1.en.html) is a utility that reads a PDF's metadata; here it prints the page count. The project uses the IEEEtran template and LaTeX packages (add-ons that provide table formatting, equations, links and page layout): [booktabs](https://ctan.org/pkg/booktabs), [amsmath](https://ctan.org/pkg/amsmath), [url](https://ctan.org/pkg/url), [graphicx](https://ctan.org/pkg/graphicx), [balance](https://ctan.org/pkg/balance), [float](https://ctan.org/pkg/float), and [hyperref](https://ctan.org/pkg/hyperref). Render and inspect every page; a successful compile alone does not show that the paper is readable.
 
 ## Study limits and submission status
 
