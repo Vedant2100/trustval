@@ -9,7 +9,7 @@
 - `tables/v3-primary.tex`: **generated** seven-model results table; do not hand-edit.
 - `tables/revisions.tex`: descriptive v2/v3/v4 instrument-design comparison.
 - `tables/trace-comparison.tex`: observed command-level difference between one failed and one successful payout recovery.
-- `CLAIM_LEDGER.md`, `TRACE_AUDIT.md`, `NOVELTY_REVIEW.md`: evidence, raw-trace spot checks and unresolved scientific threats.
+- `CLAIM_EVIDENCE.md`, `TRACE_AUDIT.md`, `NOVELTY_REVIEW.md`: evidence, raw-trace spot checks and unresolved scientific threats.
 
 All paper sources live under `paper/agent2027/`; the research datasets and runtime artifacts remain in the repository's `results/` and `tasks/` folders.
 
