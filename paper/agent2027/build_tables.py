@@ -42,21 +42,22 @@ for key, name in ORDER:
     rows.append(row)
 
 lines = [
-    "% Generated directly from results/summary_v3.json (canonical source).",
-    "% Rebuild with python paper/agent2027/build_tables.py and compare tracked diff.",
-    r"\begin{table*}[t]",
+    "% Generated from results/summary_v3.json. Do not hand-edit counts.",
+    "% CT=commit timeout; SR=stale read; PB=partial batch; DD=duplicate delivery.",
+    r"\begin{table}[t]",
     r"\centering",
-    r"\caption{TrustVal v3 task successes on four fixed scenarios (ten independent four-task runs per model). Each denominator of 10 is repeated execution of one scenario, not ten distinct tasks. Across-provider comparisons involve different CLI harnesses.}",
+    r"\caption{Passes on four fixed v3 tasks, ten repeated runs per model. CT: commit timeout; SR: stale read; PB: partial batch; DD: duplicate delivery. Different providers used different agent harnesses.}",
     r"\label{tab:v3}",
-    r"\footnotesize",
+    r"\scriptsize",
+    r"\setlength{\tabcolsep}{2.5pt}",
     r"\begin{tabular}{@{}lrrrrr@{}}",
     r"\toprule",
-    r"Model & Commit timeout & Stale read & Partial batch & Duplicate delivery & Total \\",
+    r"Model & CT & SR & PB & DD & Total \\",
     r"\midrule",
     *rows,
     r"\bottomrule",
     r"\end{tabular}",
-    r"\end{table*}",
+    r"\end{table}",
     "",
 ]
 OUT.parent.mkdir(parents=True, exist_ok=True)
