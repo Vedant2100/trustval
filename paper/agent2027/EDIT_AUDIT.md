@@ -1,6 +1,6 @@
 # Paper-writing skill pass — editorial equivalence and Overleaf preflight
 
-Date: 2026-11-17. Base: **TrustVal paper merged to main** from PR #1 (squash commit `23972f3779dc8a856bcf2b168153a192e1a60019`). This branch makes **editorial, layout and portable-source** changes only. It does not change a benchmark task, experimental result, cited source or paper submission status.
+Date: 2026-11-18. Base: **TrustVal paper merged to main** from PR #1 (squash commit `23972f3779dc8a856bcf2b168153a192e1a60019`). This branch makes **editorial, layout and portable-source** changes only. It does not change a benchmark task, experimental result, cited source or paper submission status.
 
 ## Why the prose changed
 
@@ -12,6 +12,7 @@ Date: 2026-11-17. Base: **TrustVal paper merged to main** from PR #1 (squash com
 | Related Work | Citation inventory lacked clear hierarchy | Grouped stateful task benchmarks separately from directly overlapping recovery studies | All eight prior-work citations retained; no claim of first study or invented novelty |
 | Threats and Conclusion | Wording should not imply broad safety | Retained matched-uncommitted-counterfactual limitation, confounded harnesses, fixed tasks and post-hoc revisions; concise final implication | All qualification categories remain stated |
 | Layout | IEEE two-column floats out of sequence, last page uneven | Float [H] placement and balance before final section; inline artifact link | IEEEtran class, 10 pt, five-page maximum; actual preview is three pages |
+| Terminology | Generic labels obscured the concrete action | Describe agents checking an existing payout record or operation status; describe the final database state directly | The same run IDs, payments, pass/fail outcomes and model behavior are retained |
 
 ## Scientific checks
 
@@ -30,16 +31,18 @@ Matched the local compile inputs to GitHub Git blob hashes (after the layout edi
 
 | Path within `paper/agent2027/` | Git blob |
 |---|---|
-| `main.tex` | `48853bea00d323778ad1df7c788f3b80159d0ead` |
+| `main.tex` | `5fe972cbb016be9c0770a11fa2971da3855d3f0a` |
 | `references.bib` | `0091b93b4c0f853fa40bcf72f621af1ffe0c78ef` |
 | `tables/v3-primary.tex` | `0762ad4716e047be1a71e50603e53a20ddd78d73` |
 | `tables/revisions.tex` | `1bac29db855e4ff51140d41f5e3b9fd3b79da299` |
-| `tables/trace-comparison.tex` | `863f7865a06ee5b48654a5a1953b97d34a6e7bde` |
+| `tables/trace-comparison.tex` | `4487b31178fc39d3ec7b8ff66d1c27b7e252fd35` |
 
 - TeX Live pdfLaTeX + BibTeX + two further pdfLaTeX passes succeeded with all eight references resolved. **3 pages including references**; no overfull boxes. Nonfatal underfull text/column warnings remain.
 - All three rendered pages inspected. Tables are anchored after the text that introduces them; final bibliography shares the last page without clipping.
 - `export_overleaf.py` created a **five-file** ZIP: `main.tex`, `references.bib` and the three table inputs. A fresh temporary extraction successfully compiled to **3 pages**, with no undefined citations or overfull boxes.
 - Overleaf **New Project → Upload Project** is supported; an Overleaf account connection, online project URL or GitHub premium sync was **not** created. The GitHub sync feature is premium and not automatic.
+
+- A final wording pass removed generic jargon from the paper and evidence-file name; the revised three-page PDF and five-file Overleaf ZIP were rebuilt on Nov 18. The manuscript and trace table contain no instance of the removed term.
 
 ## Remaining gates
 
