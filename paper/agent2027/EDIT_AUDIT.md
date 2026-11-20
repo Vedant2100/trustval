@@ -8,9 +8,9 @@ Date: 2026-11-18. Base: merged PR #1, commit `23972f3`. This branch changes manu
 - Consolidate the version-2/version-3 design explanation and retain the warning that several features changed together.
 - Keep the main result table beside Results and add the two-run payment comparison.
 - Replace abstract shorthand with descriptions of the actual action and saved database result.
-- Define technical terms and acronyms in ordinary language at first use, with clickable sources. Table captions explain their abbreviations and pass criteria.
-- Link general concepts to primary or official sources: [API](https://developer.mozilla.org/en-US/docs/Glossary/API), [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview), [safe API retries](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/), [SQLite](https://www.sqlite.org/about.html), [Harbor](https://github.com/harbor-framework/harbor), [Modal](https://modal.com/docs/guide), [Claude Code](https://docs.anthropic.com/en/docs/claude-code/getting-started), [Codex](https://developers.openai.com/codex/cli/), and [permutation tests](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
-- Link TrustVal-specific terms and controls to the relevant [version-3 design](https://github.com/Vedant2100/trustval/blob/main/DESIGN_V3.md), [version-4 design](https://github.com/Vedant2100/trustval/blob/main/DESIGN_V4.md), and [control script](https://github.com/Vedant2100/trustval/blob/main/scripts/naive_cases.inc).
+- Keep general technical terms (API, HTTP, SQLite, idempotency) undefined in the paper, as expected by an agent-systems audience; plain-language explanations live in [README.md](README.md).
+- Keep links only to Harbor and to TrustVal's own evidence (design notes, control script, reference solution, trace audit, recorded traces), pinned to commit `fbba895` so they cannot drift after submission. A footnote gives the repository URL for print readers, since `hidelinks` makes in-text links invisible on paper.
+- Use "exactly-once requirement" (the `exactly_once` verifier field) instead of "one-effect rule".
 
 ## Scientific facts preserved
 
@@ -19,31 +19,13 @@ Date: 2026-11-18. Base: merged PR #1, commit `23972f3`. This branch changes manu
 - The 26 Claude 4.x failed attempts still have `exactly_once=0` in saved checks. The underlying agent-action explanation remains based on the results notes and representative trace checks, not a reinspection of every trajectory.
 - The three GPT-6-family pilots remain outside the seven-model table.
 - v4 remains three runs per model.
-- The paper still states the key limitation: version 3 has no matching case where the same timeout occurs but the requested change was not saved.
+- The paper still states the key limitation: version 3 has no matching case where the same injected error occurs but the requested change was not saved.
 - Version 2 to version 3 changed multiple features together. The reference solution for the reservation task still avoids the batch request that triggers the evaluated agents' failure.
 - No new experiment, score, statistical comparison, or submission claim was added.
 
-## Exact-source build and Overleaf import
+## Build status
 
-The five local LaTeX inputs match the GitHub branch's exact file hashes:
-
-| File | Git blob |
-|---|---|
-| `main.tex` | `15aedfd1ef542161f8d0643d6d8b1a0980b7cc30` |
-| `references.bib` | `0091b93b4c0f853fa40bcf72f621af1ffe0c78ef` |
-| `tables/v3-primary.tex` | `1970e500946f956a8e353772870a6a6a9d1bf395` |
-| `tables/revisions.tex` | `4b6ac493cc1c11599439cd3bdacaa50cfd94d493` |
-| `tables/trace-comparison.tex` | `96566a5c6757c124d9a950f8bc40719a761e2d01` |
-
-- Built with [pdfLaTeX](https://www.overleaf.com/learn/latex/PDF) and [BibTeX](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex): **4 US Letter pages including references**, within the five-page short-paper limit.
-- All eight citations and all cross-references resolved. No text extends beyond page margins. A few nonfatal line-spacing warnings remain.
-- All four pages were rendered and visually inspected. The PDF contains **64 clickable links**, including direct links from the one-effect rule and the two example run IDs to their design notes and recorded actions.
-- The five-file Overleaf ZIP passed archive-integrity testing, was extracted into a clean directory, and compiled independently to the same four-page PDF.
-- The ZIP has not been uploaded to an Overleaf account; it is ready for **New Project → Upload Project**.
-
-SHA-256:
-- PDF: `de54f3bfb08a63bc8dc4ce55e2d1cf3169f53e59e59db32f8fd1ce4c1298de29`
-- ZIP: `ba038664121c98114f18df93660ffb2cfc51015073f8771a36575bc8bf4eb408`
+The abstract, link and caption revision of 2026-11-20 has **not** been rebuilt. Earlier hashes, page counts and PDF/ZIP checksums recorded here no longer applied after later edits and were removed rather than kept stale. Before submission, run `pdflatex → bibtex → pdflatex → pdflatex`, confirm the page count is within the five-page limit, and inspect the footnote URL and table layout.
 
 ## Remaining publication gates
 

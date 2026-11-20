@@ -1,7 +1,7 @@
 % Version contrasts are descriptive. Several factors changed together between v2/v3.
 \begin{table}[H]
 \centering
-\caption{How the four-task test changed. A control is a fixed program used to check the test; a reference agent is a prewritten solution.}
+\caption{How the four-task test changed across versions.}
 \label{tab:versions}
 \scriptsize
 \renewcommand{\arraystretch}{1.10}
@@ -10,7 +10,7 @@
 Version & Ambiguous outcome and tool behavior & Validation and observed limit \\
 \midrule
 v2 & Error messages revealed whether a change was saved; the service ignored repeated requests. & Haiku 4.5 and Sonnet 4.6 each passed 4/4 in one run. \\
-v3 & Ordinary \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/502}{HTTP 502} and \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/504}{HTTP 504} errors; repeated writes could create duplicates; status and saved-record checks available; no recovery hints. & Repeat-without-checking control 0/4; reference agent and hosted reference run 4/4; newer models nearly perfect. \\
+v3 & Ordinary HTTP 502 and HTTP 504 errors; repeated writes could create duplicates; status and saved-record checks available; no recovery hints. & Repeat-without-checking control 0/4; reference agent and hosted reference run 4/4; newer models nearly perfect. \\
 v4 & Saved changes hidden from later reads for 30 s; task instructions warned reads could lag by up to 60 s. & Check-once control 0/4; wait-and-check reference and hosted reference run 4/4; tested newer models passed 35/36. \\
 \bottomrule
 \end{tabular}
