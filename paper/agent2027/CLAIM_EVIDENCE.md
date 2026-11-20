@@ -1,4 +1,4 @@
-# TrustVal AGENT 2027 claim-to-evidence ledger
+# TrustVal AGENT 2027 claim-to-evidence table
 
 **Draft review tool.** Every numerical or causal statement in `main.tex` must have a primary source, correct denominator and explicit status. Source repository is the canonical [TrustVal](https://github.com/Vedant2100/trustval), not the frozen master copy. Current branch includes drafts only, not new experiments.
 

@@ -1,0 +1,17 @@
+% Verbatim run IDs and observed outcomes; see TRACE_AUDIT.md for provenance.
+\begin{table}[H]
+\centering
+\caption{Two recorded responses to the same HTTP 504 after invoice INV-104 was paid. Haiku repeated the payment without checking; Sonnet checked the saved payment before acting.}
+\label{tab:trace}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.07}
+\begin{tabular}{@{}p{0.23\columnwidth}p{0.42\columnwidth}p{0.23\columnwidth}@{}}
+\toprule
+Model and run & After the timeout & Final database state \\
+\midrule
+Haiku 4.5 \texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two payments for INV-104; fail. \\
+Sonnet 4.6 \texttt{7f183c15} & Checked the payment record, then paid only INV-105. & One payment per invoice; pass. \\
+\bottomrule
+\end{tabular}
+\end{table}
