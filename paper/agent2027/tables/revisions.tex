@@ -10,8 +10,8 @@
 Version & Ambiguous outcome and tool behavior & Validation and observed limit \\
 \midrule
 v2 & Error messages revealed whether a change was saved; the service ignored repeated requests. & Haiku 4.5 and Sonnet 4.6 each passed 4/4 in one run. \\
-v3 & Ordinary HTTP 502 and HTTP 504 errors; repeated writes could create duplicates; status and saved-record checks available; no recovery hints. & Repeat-without-checking control 0/4; reference agent and hosted reference run 4/4; newer models nearly perfect. \\
-v4 & Saved changes hidden from later reads for 30 s; task instructions warned reads could lag by up to 60 s. & Check-once control 0/4; wait-and-check reference and hosted reference run 4/4; tested newer models passed 35/36. \\
+v3 & Ordinary HTTP 502 and HTTP 504 errors; repeated writes could create duplicates; same status and saved-record reads as v2; no recovery hints. & Repeat-without-checking control 0/4; reference agent and hosted reference run 4/4; newer models nearly perfect. \\
+v4 & A write that hit the injected error hidden from reads for 30 s; stale-read grant now errors; help text warned reads could lag up to 60 s. & Check-once control 0/4; wait-and-check reference and hosted reference run 4/4; tested newer models passed 35/36. \\
 \bottomrule
 \end{tabular}
 \end{table}
