@@ -6,12 +6,12 @@
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.07}
-\begin{tabular}{@{}p{0.23\columnwidth}p{0.42\columnwidth}p{0.23\columnwidth}@{}}
+\begin{tabular}{@{}L{0.23\columnwidth}L{0.42\columnwidth}L{0.23\columnwidth}@{}}
 \toprule
 Model and run & After the timeout & Final database state \\
 \midrule
-Haiku 4.5 \texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two payments for INV-104; fail. \\
-Sonnet 4.6 \texttt{7f183c15} & Checked the payment record, then paid only INV-105. & One payment per invoice; pass. \\
+Haiku 4.5\newline\texttt{57fcbdfa} & Paid INV-105, then retried INV-104 without a state read. & Two payments for INV-104; fail. \\
+Sonnet 4.6\newline\texttt{7f183c15} & Checked the payment record, then paid only INV-105. & One payment per invoice; pass. \\
 \bottomrule
 \end{tabular}
 \end{table}
